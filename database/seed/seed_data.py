@@ -13,14 +13,16 @@ build and test against realistic-looking synthetic data first.
 import os
 import random
 from datetime import date, timedelta
+from pathlib import Path
 
 import psycopg
 from dotenv import load_dotenv
 from faker import Faker
 
-# Load variables from the project's .env file (POSTGRES_USER, etc.)
-# so this script never has credentials hardcoded in it.
-load_dotenv(dotenv_path="../../.env")
+# Load variables from the project's .env file (DATABASE_URL, etc.). Resolved
+# from this file's own location (not a relative path) so it works no matter
+# which directory you run the script from.
+load_dotenv(dotenv_path=Path(__file__).resolve().parent.parent.parent / ".env")
 
 fake = Faker()
 random.seed(42)  # fixed seed = same "random" data every run, easier to debug
@@ -39,13 +41,7 @@ CATEGORIES = {
 
 
 def get_connection():
-    return psycopg.connect(
-        host="localhost",
-        port=os.environ["POSTGRES_PORT"],
-        dbname=os.environ["POSTGRES_DB"],
-        user=os.environ["POSTGRES_USER"],
-        password=os.environ["POSTGRES_PASSWORD"],
-    )
+    return psycopg.connect(os.environ["DATABASE_URL"])
 
 
 def seed_products(cur, count=40):

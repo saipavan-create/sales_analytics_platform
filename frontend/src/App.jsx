@@ -11,19 +11,23 @@ import {
   YAxis,
 } from 'recharts'
 
+// Falls back to the local backend if VITE_API_URL isn't set, so local
+// development keeps working exactly as before without any extra setup.
+const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000'
+
 function App() {
   const [revenue, setRevenue] = useState([])
   const [topProducts, setTopProducts] = useState([])
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/analytics/revenue-by-month')
+    fetch(`${API_URL}/analytics/revenue-by-month`)
       .then((res) => res.json())
       .then((data) => {
         console.log('revenue data:', data)
         setRevenue(data)
       })
 
-    fetch('http://127.0.0.1:8000/analytics/top-products?limit=8')
+    fetch(`${API_URL}/analytics/top-products?limit=8`)
       .then((res) => res.json())
       .then((data) => {
         console.log('top products data:', data)
