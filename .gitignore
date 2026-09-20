@@ -1,0 +1,22 @@
+# Environment variables (contains secrets — never commit this)
+.env
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+
+# Node / React
+node_modules/
+frontend/build/
+frontend/dist/
+
+# Docker
+postgres_data/
+
+# Editors / OS
+.DS_Store
+.vscode/
+.idea/
