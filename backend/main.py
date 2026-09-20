@@ -5,12 +5,15 @@ from database import get_connection
 
 app = FastAPI(title="Sales Analytics API")
 
-# Browsers block a webpage on one origin (localhost:5173, the React dev
-# server) from calling an API on a different origin (localhost:8000) unless
-# the API explicitly allows it. This is that permission.
+# Browsers block a webpage on one origin from calling an API on a different
+# origin unless the API explicitly allows it. localhost:5173 is the local
+# React dev server; the vercel.app domain is the deployed frontend.
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=[
+        "http://localhost:5173",
+        "https://salesanalyticslearning.vercel.app",
+    ],
     allow_methods=["*"],
     allow_headers=["*"],
 )
